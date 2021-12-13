@@ -14,6 +14,7 @@ public class Kakaa {
 
     public String openLatest() {
         File file = musume.getLatest(directory);
+        musuko.update(file);
         return read(file);
     }
 
@@ -27,5 +28,6 @@ public class Kakaa {
     }
 
     public void save(String text) {
+        File file = musuko.getFile(directory);
     }
 }
