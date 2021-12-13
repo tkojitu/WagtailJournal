@@ -41,4 +41,4 @@
 + Make callback for New button.
   + Save contents of the text area
   + Clear the text area.
-+ Introduce git.
+- Introduce git.
