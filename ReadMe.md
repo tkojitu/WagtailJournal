@@ -16,6 +16,7 @@
   * Text area is cleared.
 * The app saved a file in Documents/notes/ folder.
 * If the text area is empty, the app doesn't save a file.
+* The app always opens the latest file.
 
 # Todo
 
