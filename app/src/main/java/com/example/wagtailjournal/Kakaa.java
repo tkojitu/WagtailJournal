@@ -1,9 +1,31 @@
 package com.example.wagtailjournal;
 
-public class Kakaa {
-    private Musuko musuko;
+import java.io.File;
 
-    public Kakaa(Musuko mu) {
-        musuko = mu;
+public class Kakaa {
+    private static File directory;
+    private Musuko musuko;
+    private Musume musume;
+
+    public Kakaa(Musuko mk, Musume mm) {
+        musuko = mk;
+        musume = mm;
+    }
+
+    public String openLatest() {
+        File file = musume.getLatest(directory);
+        return read(file);
+    }
+
+    private String read(File file) {
+        return null;
+    }
+
+    public void saveAndUpdate(String text) {
+        save(text);
+        musuko.update();
+    }
+
+    public void save(String text) {
     }
 }

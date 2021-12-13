@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private class KakaaFactory implements ServiceFactory {
         @Override
         public Object create(Container co) {
-            return new Kakaa((Musuko)co.geti("musuko"));
+            return new Kakaa((Musuko)co.geti("musuko"), (Musume)co.geti("musume"));
         }
     }
 
@@ -23,6 +23,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public Object create(Container co) {
             return new Musuko();
+        }
+    }
+
+    private class MusumeFactory implements ServiceFactory {
+        @Override
+        public Object create(Container co) {
+            return new Musume();
         }
     }
 
@@ -38,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupContainer() {
         container.defserv("oyaji", new OyajiFactory())
                 .defserv("kakaa", new KakaaFactory())
-                .defserv("musuko", new MusukoFactory());
+                .defserv("musuko", new MusukoFactory())
+                .defserv("musume", new MusumeFactory());
     }
 }
