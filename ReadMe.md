@@ -47,3 +47,4 @@
   + Save contents of the text area
   + Clear the text area.
 - Introduce git.
++ https://developer.android.com/training/data-storage/manage-all-files
