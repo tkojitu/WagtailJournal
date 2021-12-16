@@ -54,3 +54,4 @@
      all files.
   3. To determine whether your app has been granted the MANAGE_EXTERNAL_STORAGE permission, call
      Environment.isExternalStorageManager().
++ https://stackoverflow.com/questions/65876736/how-do-you-request-manage-external-storage-permission-in-android
