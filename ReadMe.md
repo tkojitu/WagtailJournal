@@ -47,7 +47,7 @@
   + Save contents of the text area
   + Clear the text area.
 - Introduce git.
-+ https://developer.android.com/training/data-storage/manage-all-files
+- https://developer.android.com/training/data-storage/manage-all-files
   1. Declare the MANAGE_EXTERNAL_STORAGE permission in the manifest.
   2. Use the ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION intent action to direct users to a system
      settings page where they can enable the following option for your app: Allow access to manage
@@ -55,3 +55,7 @@
   3. To determine whether your app has been granted the MANAGE_EXTERNAL_STORAGE permission, call
      Environment.isExternalStorageManager().
 + https://stackoverflow.com/questions/65876736/how-do-you-request-manage-external-storage-permission-in-android
++ Write permission for MANAGE_EXTERNAL_STORAGE in the manifest.
++ Call startActivity with ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION in the callback for New button.
+  + Call startActivity only if Environment.isExternalStorageManager returns false.
+  
