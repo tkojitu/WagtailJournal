@@ -26,56 +26,57 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupContainer() {
-        container.defserv("oyaji",
+        MainActivity act = this;
+        container.defserv("act",
                 new ServiceFactory() {
+                    @Override
                     public Object create(Container co) {
-                        return new Oyaji((Kakaa)co.geti("kakaa"));
+                        return act;
+                    }
+                })
+        .defserv("oyaji",
+                new ServiceFactory() {
+                    @Override
+                    public Object create(Container co) {
+                        return new Oyaji((MainActivity)co.geti("act"), (Kakaa)co.geti("kakaa"));
                     }
                 })
         .defserv("kakaa",
                 new ServiceFactory() {
+                    @Override
                     public Object create(Container co) {
                         return new Kakaa((Musuko)co.geti("musuko"), (Musume)co.geti("musume"));
                     }
                 })
         .defserv("musuko",
                 new ServiceFactory() {
+                    @Override
                     public Object create(Container co) {
                         return new Musuko();
                     }
                 })
         .defserv("musume",
                 new ServiceFactory() {
+                    @Override
                     public Object create(Container co) {
                         return new Musume();
                     }
                 });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.R)
-    public void onClick(View view) {
-        if (!Environment.isExternalStorageManager())  {
-            requestPermission();
-            return;
-        }
+    private Oyaji getOyaji() {
+        return (Oyaji)container.geti("oyaji");
     }
 
-    private void requestPermission() {
-        Uri uri = Uri.parse("package:" + BuildConfig.APPLICATION_ID);
-        Intent intent = new Intent(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri);
-        startActivityForResult(intent, APP_STORAGE_ACCESS_REQUEST_CODE);
+    @RequiresApi(api = Build.VERSION_CODES.R)
+    public void onClick(View view) {
+        getOyaji().requestPermission();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == APP_STORAGE_ACCESS_REQUEST_CODE) {
-            if (Environment.isExternalStorageManager())  {
-                Toast.makeText(this, "permision granted", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "permision denied", Toast.LENGTH_LONG).show();
-            }
-        }
+        getOyaji().receivePermission(resultCode);
     }
 }
