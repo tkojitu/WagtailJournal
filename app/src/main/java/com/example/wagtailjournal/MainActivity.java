@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
@@ -38,14 +39,16 @@ public class MainActivity extends AppCompatActivity {
                 new ServiceFactory() {
                     @Override
                     public Object create(Container co) {
-                        return new Oyaji((MainActivity)co.geti("act"), (Kakaa)co.geti("kakaa"));
+                        return new Oyaji((MainActivity)co.geti("act"),
+                                (Kakaa)co.geti("kakaa"),
+                                (Musuko)co.geti("musuko"));
                     }
                 })
         .defserv("kakaa",
                 new ServiceFactory() {
                     @Override
                     public Object create(Container co) {
-                        return new Kakaa((Musuko)co.geti("musuko"), (Musume)co.geti("musume"));
+                        return new Kakaa();
                     }
                 })
         .defserv("musuko",
@@ -70,13 +73,15 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     public void onClick(View view) {
-        getOyaji().requestPermission();
+        TextView text = (TextView)findViewById(R.id.editText);
+        getOyaji().requestPermission(text.getText().toString());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        getOyaji().receivePermission(resultCode);
+        TextView text = (TextView)findViewById(R.id.editText);
+        getOyaji().receivePermission(text.getText().toString(), resultCode);
     }
 }

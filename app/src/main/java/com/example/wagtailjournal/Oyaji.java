@@ -16,41 +16,38 @@ public class Oyaji {
 
     private Activity activity;
     private Kakaa kakaa;
+    private Musuko musuko;
 
-    public Oyaji(Activity act, Kakaa ka) {
+    public Oyaji(Activity act, Kakaa ka, Musuko mk) {
         activity = act;
         kakaa = ka;
-    }
-
-    public String openLatest() {
-        return kakaa.openLatest();
-    }
-
-    public void save(String text) {
-        kakaa.save(text);
-    }
-
-    public void newJournal(String text) {
-        kakaa.saveAndUpdate(text);
+        musuko = mk;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.R)
-    public void requestPermission() {
-        if (Environment.isExternalStorageManager())
+    public void requestPermission(String text) {
+        if (Environment.isExternalStorageManager()) {
+            newJournal(text);
             return;
+        }
         Uri uri = Uri.parse("package:" + BuildConfig.APPLICATION_ID);
         Intent intent = new Intent(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri);
         activity.startActivityForResult(intent, APP_STORAGE_ACCESS_REQUEST_CODE);
     }
 
+    private void newJournal(String text) {
+        if (text.isEmpty())
+            return;
+        if (kakaa.save(musuko.getFile(), text))
+            musuko.updateTimestamp();
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.R)
-    public void receivePermission(int requestCode) {
+    public void receivePermission(String text, int requestCode) {
         if (requestCode != APP_STORAGE_ACCESS_REQUEST_CODE)
             return;
-        if (Environment.isExternalStorageManager())  {
-            Toast.makeText(activity, "permission granted", Toast.LENGTH_LONG).show();
-        } else {
+        if (!Environment.isExternalStorageManager())
             Toast.makeText(activity, "permission denied", Toast.LENGTH_LONG).show();
-        }
+        newJournal(text);
     }
 }
