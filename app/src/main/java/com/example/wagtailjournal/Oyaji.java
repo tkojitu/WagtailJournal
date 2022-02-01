@@ -14,11 +14,11 @@ import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMI
 public class Oyaji {
     static final int APP_STORAGE_ACCESS_REQUEST_CODE = 1;
 
-    private Activity activity;
+    private MainActivity activity;
     private Kakaa kakaa;
     private Musuko musuko;
 
-    public Oyaji(Activity act, Kakaa ka, Musuko mk) {
+    public Oyaji(MainActivity act, Kakaa ka, Musuko mk) {
         activity = act;
         kakaa = ka;
         musuko = mk;
@@ -38,8 +38,12 @@ public class Oyaji {
     private void newJournal(String text) {
         if (text.isEmpty())
             return;
-        if (kakaa.save(musuko.getFile(), text))
-            musuko.updateTimestamp();
+        if (!kakaa.save(musuko.getFile(), text)) {
+            Toast.makeText(activity, "save failed", Toast.LENGTH_LONG).show();
+            return;
+        }
+        musuko.updateTimestamp();
+        activity.clear();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.R)

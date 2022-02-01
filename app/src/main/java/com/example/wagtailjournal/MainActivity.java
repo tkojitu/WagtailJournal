@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,5 +84,10 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         TextView text = (TextView)findViewById(R.id.editText);
         getOyaji().receivePermission(text.getText().toString(), resultCode);
+    }
+
+    public void clear() {
+        EditText text = (EditText)findViewById(R.id.editText);
+        text.getText().clear();
     }
 }

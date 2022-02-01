@@ -37,8 +37,8 @@
 + Kakaa saves a text.
 - Musuko manages timestamp.
 + Musume searches the latest file.
-+ Musume tells the latest file to Kakaa.
-- Oyaji tells to Musuko to update timestamp.
++ Musume tell timestamp to Musuko.
+- Oyaji tells to Musuko to update timestamp on clicked New button.
 + Make callback for hidden app.
   + onPause
   + Save contents of the text area

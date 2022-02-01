@@ -7,12 +7,9 @@ import java.util.Date;
 public class Musuko {
     Date timestamp;
 
-    public void update() {
-    }
-
     public File getFile() {
         if (timestamp == null)
-            timestamp = new Date();
+            updateTimestamp();
         SimpleDateFormat sdf = new SimpleDateFormat("/storage/emulated/0/Documents/notes/yyyyMMddHHmmss.txt");
         String filename = sdf.format(timestamp);
         return new File(filename);
