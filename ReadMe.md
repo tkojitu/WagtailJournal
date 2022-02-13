@@ -34,7 +34,7 @@
 - Oyaji knows Musuko.
 - Oyaji is a body of the app.
   - MainActivity has a Oyaji.
-+ Kakaa saves a text.
+- Kakaa saves a text.
 - Musuko manages timestamp.
 + Musume searches the latest file.
 + Musume tell timestamp to Musuko.

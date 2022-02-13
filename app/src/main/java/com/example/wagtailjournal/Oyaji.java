@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
+import java.io.IOException;
+
 import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
 
 public class Oyaji {
@@ -38,8 +40,10 @@ public class Oyaji {
     private void newJournal(String text) {
         if (text.isEmpty())
             return;
-        if (!kakaa.save(musuko.getFile(), text)) {
-            Toast.makeText(activity, "save failed", Toast.LENGTH_LONG).show();
+        try {
+            kakaa.save(musuko.getFile(), text);
+        } catch (IOException e) {
+            Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG).show();
             return;
         }
         musuko.updateTimestamp();
