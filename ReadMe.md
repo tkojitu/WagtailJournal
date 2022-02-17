@@ -36,8 +36,15 @@
   - MainActivity has a Oyaji.
 - Kakaa saves a text.
 - Musuko manages timestamp.
-+ Musume searches the latest file.
-+ Musume tell timestamp to Musuko.
+- Oyaji requests permission onCreate.
+- Oyaji loads the latest journal when he receives permission.
+- Oyaji asks Musume to search the latest journal.
+- Musume searches the latest journal.
+- Oyaji asks Kakaa to load the latest journal.
+- Kakaa loads the latest journal.
+- Oyaji asks Musuko to update timestamp.
+- Musuko updates timestamp.
+- Oyaji knows the directory to save journal.
 - Oyaji tells to Musuko to update timestamp on clicked New button.
 + Make callback for hidden app.
   + onPause

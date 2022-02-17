@@ -1,6 +1,5 @@
 package com.example.wagtailjournal;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -9,7 +8,9 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 
 import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
 
@@ -19,43 +20,63 @@ public class Oyaji {
     private MainActivity activity;
     private Kakaa kakaa;
     private Musuko musuko;
+    private Musume musume;
+    private File directory = new File("/storage/emulated/0/Documents/notes");
 
-    public Oyaji(MainActivity act, Kakaa ka, Musuko mk) {
+    public Oyaji(MainActivity act, Kakaa ka, Musuko mk, Musume ms) {
         activity = act;
         kakaa = ka;
         musuko = mk;
+        musume = ms;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.R)
-    public void requestPermission(String text) {
+    public void startup() {
         if (Environment.isExternalStorageManager()) {
-            newJournal(text);
+            loadJournal();
             return;
         }
+        requestPermission();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.R)
+    private void requestPermission() {
         Uri uri = Uri.parse("package:" + BuildConfig.APPLICATION_ID);
         Intent intent = new Intent(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri);
         activity.startActivityForResult(intent, APP_STORAGE_ACCESS_REQUEST_CODE);
     }
 
-    private void newJournal(String text) {
+    public void newJournal(String text) {
         if (text.isEmpty())
             return;
         try {
-            kakaa.save(musuko.getFile(), text);
-        } catch (IOException e) {
+            File file = musuko.getFile(directory);
+            kakaa.save(file, text);
+            musuko.updateTimestamp(file);
+        } catch (IOException | ParseException e) {
             Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG).show();
             return;
         }
-        musuko.updateTimestamp();
         activity.clear();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.R)
-    public void receivePermission(String text, int requestCode) {
+    public void receivePermission(int requestCode) {
         if (requestCode != APP_STORAGE_ACCESS_REQUEST_CODE)
             return;
         if (!Environment.isExternalStorageManager())
             Toast.makeText(activity, "permission denied", Toast.LENGTH_LONG).show();
-        newJournal(text);
+        loadJournal();
+    }
+
+    private void loadJournal() {
+        try {
+            File latest = musume.searchLatestJournal(directory);
+            String text = kakaa.load(latest);
+            musuko.updateTimestamp(latest);
+            activity.update(text);
+        } catch (IOException | ParseException e) {
+            Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 }

@@ -4,27 +4,23 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
 
 public class MainActivity extends AppCompatActivity {
     static final int APP_STORAGE_ACCESS_REQUEST_CODE = 1;
 
     private Container container = new Container();
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setupContainer();
+        getOyaji().startup();
     }
 
     private void setupContainer() {
@@ -42,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
                     public Object create(Container co) {
                         return new Oyaji((MainActivity)co.geti("act"),
                                 (Kakaa)co.geti("kakaa"),
-                                (Musuko)co.geti("musuko"));
+                                (Musuko)co.geti("musuko"),
+                                (Musume)co.geti("musume"));
                     }
                 })
         .defserv("kakaa",
@@ -72,22 +69,27 @@ public class MainActivity extends AppCompatActivity {
         return (Oyaji)container.geti("oyaji");
     }
 
+    public EditText getEditText() {
+        return (EditText)findViewById(R.id.editText);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.R)
     public void onClick(View view) {
-        TextView text = (TextView)findViewById(R.id.editText);
-        getOyaji().requestPermission(text.getText().toString());
+        getOyaji().newJournal(getEditText().getText().toString());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        TextView text = (TextView)findViewById(R.id.editText);
-        getOyaji().receivePermission(text.getText().toString(), resultCode);
+        getOyaji().receivePermission(resultCode);
     }
 
     public void clear() {
-        EditText text = (EditText)findViewById(R.id.editText);
-        text.getText().clear();
+        getEditText().getText().clear();
+    }
+
+    public void update(String text) {
+        getEditText().setText(text);
     }
 }

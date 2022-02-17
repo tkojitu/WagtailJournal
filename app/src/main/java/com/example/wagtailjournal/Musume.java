@@ -3,7 +3,17 @@ package com.example.wagtailjournal;
 import java.io.File;
 
 public class Musume {
-    public File getLatest(File directory) {
-        return null;
+    public File searchLatestJournal(File directory) {
+        File found = null;
+        for (File file : directory.listFiles()) {
+            if (found == null) {
+                found = file;
+                continue;
+            }
+            if (file.lastModified() > found.lastModified()) {
+                found = file;
+            }
+        }
+        return found;
     }
 }

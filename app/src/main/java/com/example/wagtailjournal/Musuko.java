@@ -1,21 +1,39 @@
 package com.example.wagtailjournal;
 
 import java.io.File;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Musuko {
     Date timestamp;
 
-    public File getFile() {
+    public File getFile(File dir) {
         if (timestamp == null)
             updateTimestamp();
-        SimpleDateFormat sdf = new SimpleDateFormat("/storage/emulated/0/Documents/notes/yyyyMMddHHmmss.txt");
-        String filename = sdf.format(timestamp);
-        return new File(filename);
+        String filename = getDateFormat().format(timestamp);
+        return new File(dir, filename);
+    }
+
+    private SimpleDateFormat getDateFormat() {
+        return new SimpleDateFormat("yyyyMMddHHmmss.txt");
     }
 
     public void updateTimestamp() {
         timestamp = new Date();
+    }
+
+    public void updateTimestamp(File file) throws ParseException {
+        String filename = file.getName();
+        filename = filename.replace(".txt", "");
+        timestamp = parseDate(filename);
+    }
+
+    private Date parseDate(String date) throws ParseException {
+        try {
+            return getDateFormat().parse(date);
+        } catch (ParseException e) {
+            return new SimpleDateFormat("yyyy-MM-dd.txt").parse(date);
+        }
     }
 }
