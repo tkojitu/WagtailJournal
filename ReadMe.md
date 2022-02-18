@@ -46,13 +46,13 @@
 - Musuko updates timestamp.
 - Oyaji knows the directory to save journal.
 - Oyaji tells to Musuko to update timestamp on clicked New button.
-+ Make callback for hidden app.
-  + onPause
-  + Save contents of the text area
-  + Don't save a file when the text area is empty.
-+ Make callback for New button.
-  + Save contents of the text area
-  + Clear the text area.
+- Make callback for hidden app.
+  - onPause
+  - Save contents of the text area
+  - Don't save a file when the text area is empty.
+- Make callback for New button.
+  - Save contents of the text area
+  - Clear the text area.
   - Musuko updates timestamp.
 - Introduce git.
 - https://developer.android.com/training/data-storage/manage-all-files

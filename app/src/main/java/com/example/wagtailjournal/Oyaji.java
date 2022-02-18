@@ -46,20 +46,6 @@ public class Oyaji {
         activity.startActivityForResult(intent, APP_STORAGE_ACCESS_REQUEST_CODE);
     }
 
-    public void newJournal(String text) {
-        if (text.isEmpty())
-            return;
-        try {
-            File file = musuko.getFile(directory);
-            kakaa.save(file, text);
-            musuko.updateTimestamp(file);
-        } catch (IOException | ParseException e) {
-            Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG).show();
-            return;
-        }
-        activity.clear();
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.R)
     public void receivePermission(int requestCode) {
         if (requestCode != APP_STORAGE_ACCESS_REQUEST_CODE)
@@ -67,6 +53,26 @@ public class Oyaji {
         if (!Environment.isExternalStorageManager())
             Toast.makeText(activity, "permission denied", Toast.LENGTH_LONG).show();
         loadJournal();
+    }
+
+    public void newJournal(String text) {
+        if (!saveJournal(text))
+            return;
+        musuko.updateTimestamp();
+        activity.clear();
+    }
+
+    public boolean saveJournal(String text) {
+        if (text.isEmpty())
+            return false;
+        File file = musuko.getFile(directory);
+        try {
+            kakaa.save(file, text);
+            return true;
+        } catch (IOException e) {
+            Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG).show();
+            return false;
+        }
     }
 
     private void loadJournal() {

@@ -23,6 +23,12 @@ public class MainActivity extends AppCompatActivity {
         getOyaji().startup();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getOyaji().saveJournal(getEditText().getText().toString());
+    }
+
     private void setupContainer() {
         MainActivity act = this;
         container.defserv("act",
@@ -73,8 +79,7 @@ public class MainActivity extends AppCompatActivity {
         return (EditText)findViewById(R.id.editText);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.R)
-    public void onClick(View view) {
+    public void onClickNew(View view) {
         getOyaji().newJournal(getEditText().getText().toString());
     }
 
