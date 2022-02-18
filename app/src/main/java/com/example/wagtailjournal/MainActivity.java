@@ -96,5 +96,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void update(String text) {
         getEditText().setText(text);
+        getEditText().setSelection(getEditText().getText().length());
     }
 }

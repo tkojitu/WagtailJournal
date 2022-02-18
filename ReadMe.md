@@ -42,6 +42,7 @@
 - Musume searches the latest journal.
 - Oyaji asks Kakaa to load the latest journal.
 - Kakaa loads the latest journal.
+- Oyaji moves caret to EOF of the new journal.
 - Oyaji asks Musuko to update timestamp.
 - Musuko updates timestamp.
 - Oyaji knows the directory to save journal.
