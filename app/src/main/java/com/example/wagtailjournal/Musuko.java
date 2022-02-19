@@ -10,22 +10,25 @@ public class Musuko {
 
     public File getFile(File dir) {
         if (timestamp == null)
-            updateTimestamp();
+            updateTimestampByFile();
         String filename = getDateFormat().format(timestamp);
         return new File(dir, filename);
     }
 
     private SimpleDateFormat getDateFormat() {
-        return new SimpleDateFormat("yyyyMMddHHmmss.txt");
+        return new SimpleDateFormat("yyyyMMddHHmmss'.txt'");
     }
 
-    public void updateTimestamp() {
+    public void updateTimestampByFile() {
         timestamp = new Date();
     }
 
-    public void updateTimestamp(File file) throws ParseException {
+    public void updateTimestampByFile(File file) throws ParseException {
+        if (file == null) {
+            updateTimestampByFile();
+            return;
+        }
         String filename = file.getName();
-        filename = filename.replace(".txt", "");
         timestamp = parseDate(filename);
     }
 
@@ -33,7 +36,7 @@ public class Musuko {
         try {
             return getDateFormat().parse(date);
         } catch (ParseException e) {
-            return new SimpleDateFormat("yyyy-MM-dd.txt").parse(date);
+            return new SimpleDateFormat("yyyy-MM-dd'.txt'").parse(date);
         }
     }
 }

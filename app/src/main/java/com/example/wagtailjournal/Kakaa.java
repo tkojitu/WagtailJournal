@@ -18,11 +18,13 @@ public class Kakaa {
     }
 
     public String load(File file) throws IOException {
+        if (file == null)
+            return "";
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             StringBuilder buf = new StringBuilder();
             int ch;
             while ((ch = br.read()) >= 0) {
-                buf.append(ch);
+                buf.append((char)ch);
             }
             return buf.toString();
         }

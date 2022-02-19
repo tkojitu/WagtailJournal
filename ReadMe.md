@@ -37,6 +37,7 @@
 - Kakaa saves a text.
 - Musuko manages timestamp.
 - Oyaji requests permission onCreate.
+- Oyaji mkdir Documents/notes onCreate.
 - Oyaji loads the latest journal when he receives permission.
 - Oyaji asks Musume to search the latest journal.
 - Musume searches the latest journal.

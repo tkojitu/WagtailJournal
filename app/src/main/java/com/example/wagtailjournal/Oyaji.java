@@ -1,5 +1,6 @@
 package com.example.wagtailjournal;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -47,18 +48,32 @@ public class Oyaji {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.R)
-    public void receivePermission(int requestCode) {
-        if (requestCode != APP_STORAGE_ACCESS_REQUEST_CODE)
+    public void receivePermission(int requestCode, int resultCode) {
+        if (requestCode != APP_STORAGE_ACCESS_REQUEST_CODE || resultCode == Activity.RESULT_OK)
             return;
-        if (!Environment.isExternalStorageManager())
+        if (!Environment.isExternalStorageManager()) {
             Toast.makeText(activity, "permission denied", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!mkdirNote())
+            return;
         loadJournal();
+    }
+
+    private boolean mkdirNote() {
+        if (directory.exists())
+            return true;
+        if (!directory.mkdir()) {
+            Toast.makeText(activity, "cannot mkdir note", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
     }
 
     public void newJournal(String text) {
         if (!saveJournal(text))
             return;
-        musuko.updateTimestamp();
+        musuko.updateTimestampByFile();
         activity.clear();
     }
 
@@ -79,7 +94,7 @@ public class Oyaji {
         try {
             File latest = musume.searchLatestJournal(directory);
             String text = kakaa.load(latest);
-            musuko.updateTimestamp(latest);
+            musuko.updateTimestampByFile(latest);
             activity.update(text);
         } catch (IOException | ParseException e) {
             Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG).show();

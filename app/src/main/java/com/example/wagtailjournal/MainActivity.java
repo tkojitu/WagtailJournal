@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
-    static final int APP_STORAGE_ACCESS_REQUEST_CODE = 1;
+    static final int APP_STORAGE_ACCESS_REQUEST_CODE = 100;
 
     private Container container = new Container();
 
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        getOyaji().receivePermission(resultCode);
+        getOyaji().receivePermission(requestCode, resultCode);
     }
 
     public void clear() {
