@@ -1,4 +1,4 @@
-package com.example.wagtailjournal;
+package com.github.tkojitu.wagtailjournal;
 
 import org.junit.Test;
 

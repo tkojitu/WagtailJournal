@@ -1,4 +1,4 @@
-package com.example.wagtailjournal;
+package com.github.tkojitu.wagtailjournal;
 
 import java.io.File;
 import java.text.ParseException;

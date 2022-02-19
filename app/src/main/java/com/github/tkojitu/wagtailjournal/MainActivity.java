@@ -1,4 +1,4 @@
-package com.example.wagtailjournal;
+package com.github.tkojitu.wagtailjournal;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
