@@ -28,7 +28,6 @@
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        android:onClick="onClickNew"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.476"
