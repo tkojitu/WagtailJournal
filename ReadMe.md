@@ -20,6 +20,13 @@
 
 # Todo
 
+# 0.2
+
+- Introduce toolbar.
+- Move New button into toolbar.
+
+# 0.1
+
 - Layout the screen
   - Text area
   - New button
@@ -68,4 +75,3 @@
 - Write permission for MANAGE_EXTERNAL_STORAGE in the manifest.
 - Call startActivity with ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION in the callback for New button.
   - Call startActivity only if Environment.isExternalStorageManager returns false.
-  

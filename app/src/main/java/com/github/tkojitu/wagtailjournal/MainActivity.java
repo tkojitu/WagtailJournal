@@ -2,25 +2,32 @@ package com.github.tkojitu.wagtailjournal;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
-    static final int APP_STORAGE_ACCESS_REQUEST_CODE = 100;
 
     private Container container = new Container();
 
-    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         setupContainer();
         getOyaji().startup();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     @Override
@@ -38,37 +45,37 @@ public class MainActivity extends AppCompatActivity {
                         return act;
                     }
                 })
-        .defserv("oyaji",
-                new ServiceFactory() {
-                    @Override
-                    public Object create(Container co) {
-                        return new Oyaji((MainActivity)co.geti("act"),
-                                (Kakaa)co.geti("kakaa"),
-                                (Musuko)co.geti("musuko"),
-                                (Musume)co.geti("musume"));
-                    }
-                })
-        .defserv("kakaa",
-                new ServiceFactory() {
-                    @Override
-                    public Object create(Container co) {
-                        return new Kakaa();
-                    }
-                })
-        .defserv("musuko",
-                new ServiceFactory() {
-                    @Override
-                    public Object create(Container co) {
-                        return new Musuko();
-                    }
-                })
-        .defserv("musume",
-                new ServiceFactory() {
-                    @Override
-                    public Object create(Container co) {
-                        return new Musume();
-                    }
-                });
+                .defserv("oyaji",
+                        new ServiceFactory() {
+                            @Override
+                            public Object create(Container co) {
+                                return new Oyaji((MainActivity)co.geti("act"),
+                                        (Kakaa)co.geti("kakaa"),
+                                        (Musuko)co.geti("musuko"),
+                                        (Musume)co.geti("musume"));
+                            }
+                        })
+                .defserv("kakaa",
+                        new ServiceFactory() {
+                            @Override
+                            public Object create(Container co) {
+                                return new Kakaa();
+                            }
+                        })
+                .defserv("musuko",
+                        new ServiceFactory() {
+                            @Override
+                            public Object create(Container co) {
+                                return new Musuko();
+                            }
+                        })
+                .defserv("musume",
+                        new ServiceFactory() {
+                            @Override
+                            public Object create(Container co) {
+                                return new Musume();
+                            }
+                        });
     }
 
     private Oyaji getOyaji() {
@@ -76,10 +83,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public EditText getEditText() {
-        return (EditText)findViewById(R.id.editText);
+        return (EditText)findViewById(R.id.edit_text);
     }
 
-    public void onClickNew(View view) {
+    public void onClickNew(MenuItem item) {
         getOyaji().newJournal(getEditText().getText().toString());
     }
 
