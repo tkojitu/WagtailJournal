@@ -3,8 +3,8 @@ package com.github.tkojitu.wagtailjournal;
 import java.util.HashMap;
 
 public class Container {
-    private HashMap<String, ServiceFactory> factories = new HashMap();
-    private HashMap<String, Object> services = new HashMap();
+    private HashMap<String, ServiceFactory> factories = new HashMap<>();
+    private HashMap<String, Object> services = new HashMap<>();
 
     public Container defserv(String name, ServiceFactory sf) {
         factories.put(name, sf);
