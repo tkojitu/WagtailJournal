@@ -22,6 +22,9 @@
 
 # 0.2
 
++ Make original icons.
++ Show filename in toolbar.
++ Deprecate startActivityForResult.
 - Introduce toolbar.
 - Move New button into toolbar.
 
