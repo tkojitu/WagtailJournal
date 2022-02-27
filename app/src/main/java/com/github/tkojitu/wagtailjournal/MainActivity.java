@@ -1,19 +1,45 @@
 package com.github.tkojitu.wagtailjournal;
 
-import androidx.annotation.RequiresApi;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
 
 public class MainActivity extends AppCompatActivity {
 
     private Container container = new Container();
+
+    private ActivityResultLauncher<Intent> launcher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() != Activity.RESULT_OK) {
+                        Toast.makeText(MainActivity.this, "permission denied", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    Intent resultData = result.getData();
+                    if (resultData == null) {
+                        Toast.makeText(MainActivity.this, "permission denied", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    getOyaji().loadJournal();
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +47,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         setupContainer();
-        getOyaji().startup();
+        requestPermission();
+    }
+
+    private void requestPermission() {
+        if (Environment.isExternalStorageManager()) {
+            getOyaji().loadJournal();
+            return;
+        }
+        Uri uri = Uri.parse("package:" + BuildConfig.APPLICATION_ID);
+        Intent intent = new Intent(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri);
+        launcher.launch(intent);
     }
 
     @Override
@@ -88,13 +124,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickNew(MenuItem item) {
         getOyaji().newJournal(getEditText().getText().toString());
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.R)
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        getOyaji().receivePermission(requestCode, resultCode);
     }
 
     public void clear() {

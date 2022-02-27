@@ -1,22 +1,11 @@
 package com.github.tkojitu.wagtailjournal;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
 import android.widget.Toast;
-
-import androidx.annotation.RequiresApi;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 
-import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
-
 public class Oyaji {
-    static final int APP_STORAGE_ACCESS_REQUEST_CODE = 1;
 
     private MainActivity activity;
     private Kakaa kakaa;
@@ -29,35 +18,6 @@ public class Oyaji {
         kakaa = ka;
         musuko = mk;
         musume = ms;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.R)
-    public void startup() {
-        if (Environment.isExternalStorageManager()) {
-            loadJournal();
-            return;
-        }
-        requestPermission();
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.R)
-    private void requestPermission() {
-        Uri uri = Uri.parse("package:" + BuildConfig.APPLICATION_ID);
-        Intent intent = new Intent(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri);
-        activity.startActivityForResult(intent, APP_STORAGE_ACCESS_REQUEST_CODE);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.R)
-    public void receivePermission(int requestCode, int resultCode) {
-        if (requestCode != APP_STORAGE_ACCESS_REQUEST_CODE || resultCode == Activity.RESULT_OK)
-            return;
-        if (!Environment.isExternalStorageManager()) {
-            Toast.makeText(activity, "permission denied", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (!mkdirNote())
-            return;
-        loadJournal();
     }
 
     private boolean mkdirNote() {
@@ -90,7 +50,9 @@ public class Oyaji {
         }
     }
 
-    private void loadJournal() {
+    public void loadJournal() {
+        if (!mkdirNote())
+            return;
         try {
             File latest = musume.searchLatestJournal(directory);
             String text = kakaa.load(latest);
