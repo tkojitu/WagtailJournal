@@ -7,11 +7,11 @@ android {
 
     defaultConfig {
         applicationId "com.github.tkojitu.wagtailjournal"
-        minSdk 31
-        targetSdk 31
+        minSdk 35
+        targetSdk 35
         versionCode 1
         versionName "0.2"
-
+        namespace "com.github.tkojitu.wagtailjournal"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -24,6 +24,11 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding = true
+        compose = true
+        buildConfig = true
     }
 }
 
