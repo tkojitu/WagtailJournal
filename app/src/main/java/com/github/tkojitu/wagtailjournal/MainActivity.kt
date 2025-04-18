@@ -1,7 +1,6 @@
 package com.github.tkojitu.wagtailjournal
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
@@ -15,6 +14,7 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.net.toUri
 
 class MainActivity : AppCompatActivity() {
     private val container = Container()
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             oyaji!!.loadJournal()
             return
         }
-        val uri = Uri.parse("package:" + BuildConfig.APPLICATION_ID)
+        val uri = ("package:" + BuildConfig.APPLICATION_ID).toUri()
         val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri)
         launcher.launch(intent)
     }
@@ -69,14 +69,14 @@ class MainActivity : AppCompatActivity() {
         container.defserv(
             "act",
             object : ServiceFactory {
-                override fun create(co: Container?): Any? {
+                override fun create(co: Container?): Any {
                     return act
                 }
             })
             .defserv(
                 "oyaji",
                 object : ServiceFactory {
-                    override fun create(co: Container?): Any? {
+                    override fun create(co: Container?): Any {
                         return Oyaji(
                             (co!!.geti("act") as MainActivity?)!!,
                             (co.geti("kakaa") as Kakaa?)!!,
@@ -88,21 +88,21 @@ class MainActivity : AppCompatActivity() {
             .defserv(
                 "kakaa",
                 object : ServiceFactory {
-                    override fun create(co: Container?): Any? {
+                    override fun create(co: Container?): Any {
                         return Kakaa()
                     }
                 })
             .defserv(
                 "musuko",
                 object : ServiceFactory {
-                    override fun create(co: Container?): Any? {
+                    override fun create(co: Container?): Any {
                         return Musuko()
                     }
                 })
             .defserv(
                 "musume",
                 object : ServiceFactory {
-                    override fun create(co: Container?): Any? {
+                    override fun create(co: Container?): Any {
                         return Musume()
                     }
                 })
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
     private val oyaji: Oyaji?
         get() = container.geti("oyaji") as Oyaji?
 
-    val editText: EditText
+    private val editText: EditText
         get() = findViewById<View>(R.id.edit_text) as EditText
 
     fun onClickNew(item: MenuItem?) {

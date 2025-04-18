@@ -6,7 +6,7 @@ class Musume {
     fun searchLatestJournal(directory: File): File? {
         var found: File? = null
         if (!directory.exists()) return null
-        for (file in directory.listFiles()) {
+        for (file in directory.listFiles()!!) {
             if (found == null) {
                 found = file
                 continue
