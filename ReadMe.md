@@ -18,7 +18,11 @@
 * If the text area is empty, the app doesn't save a file.
 * The app always opens the latest file.
 
-# Todo
+# Versions
+
+# 0.3
+
+- Fixed the toolbar so it doesn't scroll.
 
 # 0.2
 
