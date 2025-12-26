@@ -2,6 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/menu_item_home"
+        android:onClick="onClickHome"
+        android:title="@string/menu_item_home"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_item_end"
+        android:onClick="onClickEnd"
+        android:title="@string/menu_item_end"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/menu_item_new"
         android:onClick="onClickNew"
         android:title="@string/menu_item_new"
