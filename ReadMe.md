@@ -18,22 +18,25 @@
 * If the text area is empty, the app doesn't save a file.
 * The app always opens the latest file.
 
-# Versions
+# History
 
-# 0.3
+## 0.5
 
 - Add Home button and End button.
 - Fixed the toolbar so it doesn't scroll.
 
-# 0.2
+## 0.4
+
+- Migrate from Java to Kotlin.
+
+## 0.2
 
 - Make original icons.
-+ Show filename in toolbar.
 - Deprecate startActivityForResult.
 - Introduce toolbar.
 - Move New button into toolbar.
 
-# 0.1
+## 0.1
 
 - Layout the screen
   - Text area
