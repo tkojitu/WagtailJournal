@@ -7,18 +7,18 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </androidx.appcompat.widget.Toolbar>
+        android:layout_height="?attr/actionBarSize"
+        />
 
+    <!-- EditText は高さを 0dp にして weight=1 にするとツールバーの下の残り領域だけを使う -->
     <EditText
         android:id="@+id/edit_text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
         android:scrollbarAlwaysDrawVerticalTrack="true" />
-
 </LinearLayout>
