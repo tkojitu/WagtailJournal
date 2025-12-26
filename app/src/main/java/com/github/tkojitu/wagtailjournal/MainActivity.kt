@@ -114,6 +114,13 @@ class MainActivity : AppCompatActivity() {
     private val editText: EditText
         get() = findViewById<View>(R.id.edit_text) as EditText
 
+    fun onClickEnd(item: MenuItem?) {
+        editText.setSelection(editText.text.length)
+    }
+
+    fun onClickHome(item: MenuItem?) {
+        editText.setSelection(0)
+    }
     fun onClickNew(item: MenuItem?) {
         oyaji!!.newJournal(editText.text.toString())
     }
