@@ -22,6 +22,7 @@
 
 # 0.3
 
+- Add Home button and End button.
 - Fixed the toolbar so it doesn't scroll.
 
 # 0.2
